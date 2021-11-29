@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  database:
+    build: "./src/main/resources/database"
+    volumes:
+      - data:/var/lib/mysql
+    container_name: "orthodontic-clinic-database"
+  backend:
+    build: "."
+    ports:
+      - "8080:8080"
+    container_name: "orthodontic-clinic-backend"
+    depends_on:
+      - database
+  frontend:
+    build: "../OrthodonticClinicFrontend"
+    ports:
+      - "4200:4200"
+    container_name: "orthodontic-clinic-frontend"
+    depends_on:
+      - database
+      - backend
+
+volumes:
+  data:
